@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.6.10"
     application
+    `maven-publish`
 }
 
 group = "me.alexa"
@@ -27,4 +28,19 @@ tasks.withType<KotlinCompile> {
 
 application {
     mainClass.set("MainKt")
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            create<MavenPublication>("maven") {
+                groupId = "org.gradle.alexander-topilskii"
+                artifactId = "library"
+                version = "1.1"
+
+                from(components["java"])
+            }
+        }
+    }
 }
